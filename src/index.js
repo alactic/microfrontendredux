@@ -6,11 +6,25 @@ import App from './components/App';
 import store from './store';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
+window.renderReduxapp = (containerId, history) => {
+  ReactDOM.render(
+    <Provider store={store}>
+    <App  history={history}/>
   </Provider>,
-  document.getElementById('root')
-);
+    document.getElementById(containerId)
+  );
+};
+
+// unmount micro frontend function
+window.unmountReduxapp = (containerId) => {
+  ReactDOM.unmountComponentAtNode(document.getElementById(containerId));
+};
+
+// Mount to root if it is not a micro frontend
+if (!document.getElementById("Reduxapp-container")) {
+  ReactDOM.render(<Provider store={store}>
+    <App />
+  </Provider>, document.getElementById("root"));
+}
 
 registerServiceWorker();
